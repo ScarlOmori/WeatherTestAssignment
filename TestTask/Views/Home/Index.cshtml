@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p><a asp-action="Watch" asp-controller="Weather">Просмотр</a> архивов погодных условий в городе Москве.</p>
+    <p><a asp-action="Upload" asp-controller="Weather">Загрузка</a> архивов погодных условий в городе Москве.</p>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Message
+    </div>
+}

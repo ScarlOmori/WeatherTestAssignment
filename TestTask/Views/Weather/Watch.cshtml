@@ -1,0 +1,136 @@
+﻿@model IndexViewModel
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h1>Список погоды</h1>
+
+<form>
+    <div class="row">
+        <div class="col">
+            <input name="yearSearch" class="form-control m-2" id="yearSort" type="text" placeholder="Год для сортировки">
+        </div>
+        <div class="col">
+            <input name="monthSearch" class="form-control m-2" id="monthSort" type="text" placeholder="Месяц для сортировки">
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-dark m-2" asp-action="Watch">Сортировать</button>
+        </div>
+    </div>
+</form>
+
+<table id="weatherTable" class="table table-striped-columns table-hover table-bordered">
+    <tr>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.DateSort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Дата
+            </a>
+        </th>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.TimeSort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Время(московское)
+            </a>
+        </th>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.TemperatureSort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Температура
+            </a>
+        </th>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.HumiditySort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Относительная влажность воздуха
+            </a>
+        </th>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.DewPointSort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Точка росы
+            </a>
+        </th>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.AtmospherePressureSort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Атмосферное давление (мм.рт.ст.)
+            </a>
+        </th>
+        <th>
+            <p>
+                Направление ветра
+            </p>
+        </th>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.WindSpeedSort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Скорость ветра
+            </a>
+        </th>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.CloudinessSort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Облачность (%)
+            </a>
+        </th>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.MinimalScopeCloudinessSort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Нижняя граница облачности
+            </a>
+        </th>
+        <th>
+            <a asp-action="Watch" asp-route-sortOrder="@ViewBag.HorizontalVisionSort" asp-route-monthSearch=@ViewBag.CurrentMonthSearch asp-route-yearSearch=@ViewBag.CurrentYearSearch>
+                Горизонтальная видимость
+            </a>
+        </th>
+        <th>
+            <p>
+                Погодные явления
+            </p>
+        </th>
+    </tr>
+
+    @foreach (Weather u in Model.Weathers)
+    {
+        <tr>
+            <td>@u.DateTime.ToShortDateString()</td>
+            <td>@u.DateTime.TimeOfDay</td>
+            <td>@u.Temperature</td>
+            <td>@u.Humidity</td>
+            <td>@u.DewPoint</td>
+            <td>@u.AtmosphPressure</td>
+            <td>@u.WindDirection</td>
+            <td>@u.WindSpeed</td>
+            <td>@u.CloudinessPercent</td>
+            <td>@u.MinimalScopeCloudiness</td>
+            <td>@u.HorizontalVision</td>
+            <td>@u.WeatherCondition</td>
+        </tr>
+    }
+
+    @if (Model.PageViewModel.HasPreviousPage)
+    {
+        @Html.ActionLink("Назад",
+        "Watch",
+        new 
+        { 
+            tablePage = (Model.PageViewModel.PageNumber - 1),
+            sortOrder = ViewBag.CurrentSort,
+            yearSearch = ViewBag.CurrentYearSearch,
+            monthSearch = ViewBag.CurrentMonthSearch
+        },
+        new
+        {
+                @class = "btn btn-outline-dark"
+        })
+    }
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        @Html.ActionLink("Вперед",
+        "Watch",
+        new 
+        { 
+            tablePage = (Model.PageViewModel.PageNumber + 1),
+            sortOrder = ViewBag.CurrentSort,
+            yearSearch = ViewBag.CurrentYearSearch,
+            monthSearch = ViewBag.CurrentMonthSearch
+        },
+        new
+        {
+            @class = "btn btn-outline-dark"
+        })
+    }
+
+</table>

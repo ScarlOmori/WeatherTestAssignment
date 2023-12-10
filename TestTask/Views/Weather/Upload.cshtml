@@ -1,0 +1,18 @@
+﻿@model IEnumerable<TestTask.Models.FileModel>
+@{
+    ViewData["Title"] = "Добавление файла";
+}
+<h3>Выберите файл для загрузки</h3>
+<form asp-action="AddFile" asp-controller="Weather" method="post" enctype="multipart/form-data">
+    <input type="file" name="uploads" /><br>
+    <input type="file" name="uploads" /><br>
+    <input type="file" name="uploads" /><br>
+    <input type="file" name="uploads" /><br>
+    <input type="submit" value="Загрузить" />
+</form>
+
+<h3>Все загруженные файлы</h3>
+@foreach (var f in Model)
+{
+    <p>@Url.Content(f.Path).Split("/")[2]</p>
+}
