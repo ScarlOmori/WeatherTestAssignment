@@ -55,7 +55,8 @@ namespace TestTask.Controllers
         [HttpGet]
         public async Task<IActionResult> Watch(int? yearSearch, int? monthSearch, int tablePage = 1, SortState sortOrder = SortState.TemperatureDesc)
         {
-            IQueryable<Weather>? weathers = _context.Weathers.AsNoTracking();
+            var weathers = _context.Weathers.AsNoTracking();
+
             ViewBag.CurrentSort = sortOrder;
             ViewBag.CurrentYearSearch = yearSearch;
             ViewBag.CurrentMonthSearch = monthSearch;
@@ -107,11 +108,7 @@ namespace TestTask.Controllers
                 SortState.HorizontalVisionDesc => weathers.OrderByDescending(w => Convert.ToInt32(w.HorizontalVision)),
                 _ => weathers.OrderBy(w => w.DateTime.Date)
             };
-            return await ReturnPageableView(tablePage, weathers);
-        }
 
-        private async Task<IActionResult> ReturnPageableView(int tablePage, IQueryable<Weather> weathers)
-        {
             const int pageSize = 18;
 
             var count = await weathers.CountAsync();
