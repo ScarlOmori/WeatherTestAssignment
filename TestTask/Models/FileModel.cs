@@ -6,7 +6,7 @@
     public class FileModel
     {
         /// <summary>
-        /// Идентифекатор.
+        /// Идентификатор.
         /// </summary>
         public int Id { get; set; }
 
