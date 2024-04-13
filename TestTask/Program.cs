@@ -4,9 +4,16 @@ using TestTask.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configBuilder = new ConfigurationBuilder();
+
+configBuilder.SetBasePath(Directory.GetCurrentDirectory());
+configBuilder.AddJsonFile("appsettings.json");
+
+var config = configBuilder.Build();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationContext>();
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<WeatherService>();
 
 var app = builder.Build();

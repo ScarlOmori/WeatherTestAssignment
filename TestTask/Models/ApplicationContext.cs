@@ -20,18 +20,10 @@ namespace TestTask.Models
         /// <summary>
         /// Конструктор с созданием базы данных, если она еще не создана.
         /// </summary>
-        public ApplicationContext()
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options)
         {
             Database.EnsureCreated();
-        }
-
-        /// <summary>
-        /// Конфигурация подключения к базе данных.
-        /// </summary>
-        /// <param name="optionsBuilder">Опции конфигурации.</param>
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=weatherdb;Trusted_Connection=True;MultipleActiveResultSets=True;TrustServerCertificate=True");
         }
     }
 }
